@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace EShop.Application.Services
 {
-    public class CreditCardService
+    public class CreditCardService : ICreditCardService
     {
 
         public Boolean ValidateCardNumber(string cardNumber)
