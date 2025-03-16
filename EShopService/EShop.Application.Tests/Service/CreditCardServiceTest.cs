@@ -68,5 +68,28 @@ namespace EShop.Application.Tests.Services
             // Assert
             Assert.True(result);
         }
+
+        [Theory]
+        [InlineData("3497 7965 8312 797", "American Express")]
+        [InlineData("345-470-784-783-010", "American Express")]
+        [InlineData("378523393817437", "American Express")]
+        [InlineData("4024-0071-6540-1778", "Visa")]
+        [InlineData("4532 2080 2150 4434", "Visa")]
+        [InlineData("4532289052809181", "Visa")]
+        [InlineData("5530016454538418", "MasterCard")]
+        [InlineData("5551561443896215", "MasterCard")]
+        [InlineData("5131208517986691", "MasterCard")]
+        [InlineData("", "Unknown")]
+        public void ValidateCard_CheckGetCardType_ReturnTrue(string cardNumber, string cardType)
+        {
+            // Arrange
+            var creditCardService = new CreditCardService();
+
+            // Act
+            var result = creditCardService.GetCardType(cardNumber);
+
+            // Assert
+            Assert.Equal(result, cardType);
+        }
     }
 }
