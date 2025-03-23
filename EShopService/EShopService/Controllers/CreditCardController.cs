@@ -26,15 +26,15 @@ namespace EShopService.Controllers
             }
             catch(CardNumberTooLongException ex)
             {
-                return StatusCode((int)HttpStatusCode.RequestUriTooLong, new { error = "The card number is too long", code = (int)HttpStatusCode.RequestUriTooLong });
+                return StatusCode((int)HttpStatusCode.RequestUriTooLong, new { error = ex.Message, code = (int)HttpStatusCode.RequestUriTooLong });
             }
-            catch (CardNumberTooShortException)
+            catch (CardNumberTooShortException ex)
             {
-                return BadRequest(new { error = "The card number is too short", code = (int)HttpStatusCode.BadRequest });
+                return BadRequest(new { error = ex.Message, code = (int)HttpStatusCode.BadRequest });
             }
-            catch (CardNumberInvalidException )
+            catch (CardNumberInvalidException ex)
             {
-                return BadRequest(new { error = "Invalid Card Number", code = (int)HttpStatusCode.BadRequest });
+                return BadRequest(new { error = ex.Message, code = (int)HttpStatusCode.BadRequest });
             }
         }
     }
