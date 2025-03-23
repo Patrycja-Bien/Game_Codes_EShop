@@ -14,7 +14,7 @@ builder.Services.AddScoped<IRepository, Repository>();
 
 // Add services to the container.
 builder.Services.AddScoped<ICreditCardService, CreditCardService>();
-builder.Services.AddScoped<IEShopSeeder, EShopSeeder>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
 builder.Services.AddControllers();
@@ -24,6 +24,7 @@ builder.Services.AddSwaggerGen();
 
 
 
+builder.Services.AddScoped<IEShopSeeder, EShopSeeder>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
