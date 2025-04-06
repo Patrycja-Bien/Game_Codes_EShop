@@ -3,6 +3,7 @@ using EShop.Application.Services;
 using EShop.Domain.Repositories;
 using EShop.Domain.Seeders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace EShopService
 {
@@ -12,8 +13,12 @@ namespace EShopService
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-            builder.Services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"), ServiceLifetime.Transient);
+
+            //builder.Services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"), ServiceLifetime.Transient);
+            builder.Services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(connectionString), ServiceLifetime.Transient);
             builder.Services.AddScoped<IRepository, Repository>();
 
 
@@ -46,9 +51,14 @@ namespace EShopService
             app.MapControllers();
 
 
-            var scope = app.Services.CreateScope();
-            var seeder = scope.ServiceProvider.GetRequiredService<IEShopSeeder>();
-            await seeder.Seed();
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+                await db.Database.MigrateAsync();
+                var seeder = scope.ServiceProvider.GetRequiredService<IEShopSeeder>();
+                await seeder.Seed();
+            }
+
 
             app.Run();
         }
