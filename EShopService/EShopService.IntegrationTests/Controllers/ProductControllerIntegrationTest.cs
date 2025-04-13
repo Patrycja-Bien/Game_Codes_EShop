@@ -8,6 +8,9 @@ using EShopDomain.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Text;
+using System;
+using Microsoft.Extensions.FileSystemGlobbing;
+using System.Threading.Tasks;
 
 namespace EShopService.IntegrationTests.Controllers
 {
@@ -80,15 +83,27 @@ namespace EShopService.IntegrationTests.Controllers
                 var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
 
                 dbContext.Products.RemoveRange(dbContext.Products);
+                dbContext.SaveChanges();
+
+                var tasks = new List<Task>();
 
                 for (int i = 0; i < 10000; i++)
                 {
-                    dbContext.Products.AddRange(
-                        new Product { Name = "Product" + i }
-                    );
-                    // Zapisanie obiektu
-                    dbContext.SaveChanges();
+                    int index = i;
+                    tasks.Add(Task.Run(async () =>
+                    {
+                        using (var scope = _factory.Services.CreateScope())
+                        {
+                            // Pobranie kontekstu bazy danych
+                            var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                            {
+                                dbContext.Products.Add(new Product { Name = "Product" + index });
+                                dbContext.SaveChanges();
+                            }
+                        }
+                    }));
                 }
+                await Task.WhenAll(tasks);
             }
 
             // Act
@@ -110,16 +125,30 @@ namespace EShopService.IntegrationTests.Controllers
                 var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
 
                 dbContext.Products.RemoveRange(dbContext.Products);
+                await dbContext.SaveChangesAsync();
 
-                for (int i = 0; i < 10000; i++)
-                {
-                    dbContext.Products.AddRange(
-                        new Product { Name = "Product" + i }
-                    );
-                    // Zapisanie obiektu
-                    await dbContext.SaveChangesAsync();
-                }
             }
+
+            var tasks = new List<Task>();
+
+            for (int i = 0; i < 10000; i++)
+            {
+                int index = i;
+                tasks.Add(Task.Run(async () =>
+                {
+                    using (var scope = _factory.Services.CreateScope())
+                    {
+                        // Pobranie kontekstu bazy danych
+                        var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                        {
+                            dbContext.Products.Add(new Product { Name = "Product" + index });
+                            await dbContext.SaveChangesAsync();
+                        }
+                    }
+                }));
+            }
+            await Task.WhenAll(tasks);
+
 
             // Act
             var response = await _client.GetAsync("/api/product");
