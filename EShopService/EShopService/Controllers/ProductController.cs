@@ -66,5 +66,13 @@ namespace EShopService.Controllers
 
             return Ok(result);
         }
+
+        [HttpPatch]
+        public ActionResult Add([FromBody] Product product)
+        {
+            var result = _productService.Add(product);
+
+            return Ok(result);
+        }
     }
 }

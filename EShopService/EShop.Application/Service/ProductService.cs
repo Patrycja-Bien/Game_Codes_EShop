@@ -34,7 +34,14 @@ namespace EShop.Application.Service
 
         public async Task<Product> AddAsync(Product product)
         {
-            var result = await _repository.AddProductAsync(product);
+             var result =  await _repository.AddProductAsync(product);
+
+            return result;
+        }
+
+        public Product Add(Product product)
+        {
+            var result = _repository.AddProductAsync(product).Result;
 
             return result;
         }

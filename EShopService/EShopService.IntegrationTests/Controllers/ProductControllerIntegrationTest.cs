@@ -6,6 +6,8 @@ using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using EShopDomain.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace EShopService.IntegrationTests.Controllers
 {
@@ -69,7 +71,7 @@ namespace EShopService.IntegrationTests.Controllers
 
 
         [Fact]
-        public async Task Add_AddThousandsProducts_ExceptedThousandsProducts()
+        public async Task Post_AddThousandsProducts_ExceptedThousandsProducts()
         {
             // Arrange
             using (var scope = _factory.Services.CreateScope())
@@ -99,7 +101,7 @@ namespace EShopService.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task Add_AddThousandsProductsAsync_ExceptedThousandsProducts()
+        public async Task Post_AddThousandsProductsAsync_ExceptedThousandsProducts()
         {
             // Arrange
             using (var scope = _factory.Services.CreateScope())
@@ -126,6 +128,43 @@ namespace EShopService.IntegrationTests.Controllers
             response.EnsureSuccessStatusCode();
             var products = await response.Content.ReadFromJsonAsync<List<Product>>();
             Assert.Equal(10000, products?.Count);
+        }
+
+
+
+        [Fact]
+        public async Task Add_AddProduct_ExceptedOneProduct()
+        {
+            // Arrange
+            using (var scope = _factory.Services.CreateScope())
+            {
+                // Pobranie kontekstu bazy danych
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+                dbContext.Products.RemoveRange(dbContext.Products);
+                dbContext.SaveChanges();
+
+                // Act
+                var category = new Category
+                {
+                    Name = "test"
+                };
+
+                var product = new Product
+                {
+                    Name = "Product",
+                    Category = category
+                };
+
+                var json = JsonConvert.SerializeObject(product);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _client.PatchAsync("/api/Product", content);
+
+                var result = await dbContext.Products.ToListAsync();
+
+                // Assert
+                Assert.Equal(1, result?.Count);
+            }
         }
     }
 }
