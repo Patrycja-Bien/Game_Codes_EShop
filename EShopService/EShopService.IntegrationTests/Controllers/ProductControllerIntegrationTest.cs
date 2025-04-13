@@ -39,7 +39,7 @@ namespace EShopService.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task Get_ReturnsAllProducts()
+        public async Task Get_ReturnsAllProducts_ExceptedTwoProducts()
         {
             // Arrange
             using (var scope = _factory.Services.CreateScope())
@@ -66,6 +66,5 @@ namespace EShopService.IntegrationTests.Controllers
             var products = await response.Content.ReadFromJsonAsync<List<Product>>();
             Assert.Equal(2, products?.Count);
         }
-
     }
 }
