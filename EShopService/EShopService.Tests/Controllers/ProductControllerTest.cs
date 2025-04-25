@@ -65,13 +65,13 @@ public class ProductControllerTests
     {
         // Arrange
         var newProduct = new Product();
-        _mockService.Setup(s => s.Add(It.IsAny<Product>())).ReturnsAsync(newProduct);
+        _mockService.Setup(s => s.AddAsync(It.IsAny<Product>())).ReturnsAsync(newProduct);
 
         // Act
         var result = await _controller.Post(newProduct);
 
         // Assert
-        _mockService.Verify(s => s.Add(newProduct), Times.Once);
+        _mockService.Verify(s => s.AddAsync(newProduct), Times.Once);
         Assert.IsType<OkObjectResult>(result);
     }
 
@@ -80,13 +80,13 @@ public class ProductControllerTests
     {
         // Arrange
         var product = new Product { Id = 1 };
-        _mockService.Setup(s => s.Update(product)).ReturnsAsync(product);
+        _mockService.Setup(s => s.UpdateAsync(product)).ReturnsAsync(product);
 
         // Act
         var result = await _controller.Put(1, product);
 
         // Assert
-        _mockService.Verify(s => s.Update(product), Times.Once);
+        _mockService.Verify(s => s.UpdateAsync(product), Times.Once);
         Assert.IsType<OkObjectResult>(result);
     }
 
@@ -96,14 +96,14 @@ public class ProductControllerTests
         // Arrange
         var product = new Product { Id = 1, Deleted = false };
         _mockService.Setup(s => s.GetAsync(1)).ReturnsAsync(product);
-        _mockService.Setup(s => s.Update(It.IsAny<Product>())).ReturnsAsync(product);
+        _mockService.Setup(s => s.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(product);
 
         // Act
         var result = await _controller.Delete(1);
 
         // Assert
         _mockService.Verify(s => s.GetAsync(1), Times.Once);
-        _mockService.Verify(s => s.Update(It.Is<Product>(p => p.Deleted)), Times.Once);
+        _mockService.Verify(s => s.UpdateAsync(It.Is<Product>(p => p.Deleted)), Times.Once);
         Assert.IsType<OkObjectResult>(result);
     }
 }
