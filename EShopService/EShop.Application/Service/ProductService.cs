@@ -36,7 +36,7 @@ namespace EShop.Application.Service
             }
 
             return product;
-        }
+            }
 
         public async Task<Product> UpdateAsync(Product product)
         {
