@@ -22,5 +22,11 @@ services:
     volumes:
       - mssql_data:/var/opt/mssql
 
+  userservice:
+    image: ${DOCKER_REGISTRY-}userservice
+    build:
+      context: Game_Codes_EShopService
+      dockerfile: ../UserService/Dockerfile
+
 volumes:
   mssql_data:

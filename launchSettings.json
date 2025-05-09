@@ -4,7 +4,8 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "game_codes_eshopservice": "StartDebugging"
+        "game_codes_eshopservice": "StartDebugging",
+        "userservice": "StartDebugging"
       }
     }
   }
