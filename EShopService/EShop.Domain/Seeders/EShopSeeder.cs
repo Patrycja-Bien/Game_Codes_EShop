@@ -2,37 +2,36 @@
 using EShopDomain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EShop.Domain.Seeders
+namespace EShop.Domain.Seeders;
+
+public class EShopSeeder(DataContext context) : IEShopSeeder
 {
-    public class EShopSeeder(DataContext context) : IEShopSeeder
+    public async Task Seed()
     {
-        public async Task Seed()
+        if (!context.Categories.Any())
         {
-            if (!context.Categories.Any())
+            var categories = new List<Category>
             {
-                var categories = new List<Category>
-                {
-                    new Category { Name = "Klocki" },
-                };
+                new Category { Name = "Game_Category" },
+            };
 
-                context.Categories.AddRange(categories);
-                context.SaveChanges();
-            }
-            if (!context.Products.Any())
+            context.Categories.AddRange(categories);
+            context.SaveChanges();
+        }
+        if (!context.Products.Any())
+        {
+            var category = await context.Categories
+                    .Where(x => x.Name == "Game_Category").FirstOrDefaultAsync();
+
+            var products = new List<Product>
             {
-                var category = await context.Categories
-                        .Where(x => x.Name == "Klocki").FirstOrDefaultAsync();
+                new Product { Name = "Game_A", Category = category },
+                new Product { Name = "Game_B", Category = category },
+                new Product { Name = "Game_C", Category = category }
+            };
 
-                var products = new List<Product>
-                {
-                    new Product { Name = "Cobi", Ean = "1234", Category = category },
-                    new Product { Name = "Duplo", Ean = "431", Category = category },
-                    new Product { Name = "Lego", Ean = "12212", Category = category }
-                };
-
-                context.Products.AddRange(products);
-                context.SaveChanges();
-            }
+            context.Products.AddRange(products);
+            context.SaveChanges();
         }
     }
 }

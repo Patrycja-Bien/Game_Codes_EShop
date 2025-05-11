@@ -2,68 +2,144 @@ using EShop.Application.Service;
 using EShop.Application.Services;
 using EShop.Domain.Repositories;
 using EShop.Domain.Seeders;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
+using System.Security.Cryptography;
 
-namespace EShopService
+namespace EShopService;
+
+public class Program
 {
-    public class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+
+        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+
+        //Baza danych
+        builder.Services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(connectionString), ServiceLifetime.Transient);
+        
+        //Repozytorium
+        builder.Services.AddScoped<IRepository, Repository>();
+
+        //Pamiêæ podrêczna
+        builder.Services.AddMemoryCache();
+
+        //Redis
+        builder.Services.AddStackExchangeRedisCache(options =>
         {
-            var builder = WebApplication.CreateBuilder(args);
+            options.Configuration = "localhost:6379"; // Redis port
+            options.InstanceName = "Game_Codes_EShop_Redis";
+        });
 
-            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        //Autentykacja
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            var rsa = RSA.Create();
+            rsa.ImportFromPem(File.ReadAllText("/app/data/public.key")); //RSA
+            var publicKey = new RsaSecurityKey(rsa);
 
-
-            //builder.Services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"), ServiceLifetime.Transient);
-            builder.Services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(connectionString), ServiceLifetime.Transient);
-            builder.Services.AddScoped<IRepository, Repository>();
-
-
-            // Add services to the container.
-            builder.Services.AddScoped<ICreditCardService, CreditCardService>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-
-
-            builder.Services.AddScoped<IEShopSeeder, EShopSeeder>();
-            builder.Services.AddMemoryCache();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = "EShopNetCourse",
+                ValidAudience = "Eshop",
+                IssuerSigningKey = publicKey
+            };
+        });
 
-            app.UseHttpsRedirection();
+        //Autoryzacja
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminOnly", policy =>
+                policy.RequireRole("Administrator"));
+            options.AddPolicy("EmployeeOnly", policy =>
+                policy.RequireRole("Employee"));
+        });
 
-            app.UseAuthorization();
+        //Serwisy
+        builder.Services.AddScoped<ICreditCardService, CreditCardService>();
+        builder.Services.AddScoped<IProductService, ProductService>();
 
-            app.MapControllers();
+        //Kontrolery
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
 
-
-            using (var scope = app.Services.CreateScope())
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-                await db.Database.MigrateAsync();
-                var seeder = scope.ServiceProvider.GetRequiredService<IEShopSeeder>();
-                await seeder.Seed();
-            }
+                Description = "Wpisz token w formacie: Bearer {token}",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
 
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+        { 
+        {
+          new OpenApiSecurityScheme
+          {
+            Reference = new OpenApiReference
+              {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+              },
+              Scheme = "oauth2",
+              Name = "Bearer",
+              In = ParameterLocation.Header,
 
-            app.Run();
+            },
+            new List<string>()
+          }
+        });
+        });
+
+        //Dane pocz¹tkowe
+        builder.Services.AddScoped<IEShopSeeder, EShopSeeder>();
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
-    }
 
+        app.UseHttpsRedirection();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+            await db.Database.MigrateAsync();
+            var seeder = scope.ServiceProvider.GetRequiredService<IEShopSeeder>();
+            await seeder.Seed();
+        }
+
+
+        app.Run();
+    }
 }
