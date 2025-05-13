@@ -15,6 +15,8 @@ WORKDIR /src
 COPY ["UserService/UserService.csproj", "UserService/"]
 RUN dotnet restore "./UserService/UserService.csproj"
 COPY . .
+COPY /data/public.key /app/data/private.key
+COPY /data/public.key /app/data/public.key
 WORKDIR "/src/UserService"
 RUN dotnet build "./UserService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

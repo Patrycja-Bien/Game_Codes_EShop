@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace User.Domain.Models;
-public class User
+public class UserRequest
 {
     [Key]
     public int Id { get; set; }

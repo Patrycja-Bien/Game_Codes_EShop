@@ -3,28 +3,28 @@ services:
     image: ${DOCKER_REGISTRY-}eshopservice
     depends_on:
       - db
+      - redis
     environment:
       - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
     build:
       context: .
       dockerfile: EShopService/Dockerfile
-    volumes:
-      - "C:/Users/lorda/NetCourse/EShopService:/app/data"
-    working_dir: /app/src
+    #volumes:
+    # - "C:/Users/lorda/NetCourse/EShopService:/app/data"
 
   userservice:
     image: ${DOCKER_REGISTRY-}userservice
     depends_on:
       - db
+      - redis
     environment:
       - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
     build:
       context: .
       dockerfile: UserService/Dockerfile
-    volumes:
-      - "C:/Users/lorda/NetCourse/EShopService:/app/data"
-    working_dir: /app/src
-      
+    #volumes:
+    #  - "C:/Users/lorda/NetCourse/EShopService:/app/data"
+     
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -40,6 +40,11 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 2s
+      retries: 10
 
 volumes:
   mssql_data:
