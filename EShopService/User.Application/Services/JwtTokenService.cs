@@ -28,7 +28,7 @@ namespace User.Application.Services
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var rsa = RSA.Create();
-            rsa.ImportFromPem(File.ReadAllText("/app/data/private.key")); // Załaduj klucz prywatny RSA
+            rsa.ImportFromPem(File.ReadAllText("../data/private.key")); // Załaduj klucz prywatny RSA
             var creds = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
 
             //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));

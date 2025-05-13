@@ -1,4 +1,3 @@
-using EShop.Application.Service;
 using EShop.Application.Services;
 using EShop.Domain.Repositories;
 using EShop.Domain.Seeders;
@@ -33,7 +32,7 @@ public class Program
         //Redis
         builder.Services.AddStackExchangeRedisCache(options =>
         {
-            options.Configuration = "localhost:6379"; // Redis port
+            options.Configuration = "redis:6379"; // Redis port
             options.InstanceName = "Game_Codes_EShop_Redis";
         });
 
@@ -46,7 +45,7 @@ public class Program
         .AddJwtBearer(options =>
         {
             var rsa = RSA.Create();
-            rsa.ImportFromPem(File.ReadAllText("/app/data/public.key")); //RSA
+            rsa.ImportFromPem(File.ReadAllText("../data/public.key")); //RSA
             var publicKey = new RsaSecurityKey(rsa);
 
             options.TokenValidationParameters = new TokenValidationParameters

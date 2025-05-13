@@ -1,6 +1,6 @@
 ﻿using EShopDomain.Models;
 
-namespace EShop.Application.Service;
+namespace EShop.Application.Services;
 
 public interface IProductService
 {
