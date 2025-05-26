@@ -10,6 +10,9 @@ using User.Domain.Models.JWT;
 using User.Domain.Repositories;
 using User.Domain.Models;
 using User.Domain.Models.Requests;
+using User.Domain.Models.Profiles;
+using User.Domain.Repositories;
+using AutoMapper;
 
 namespace UserService;
 
@@ -22,9 +25,20 @@ public class Program
         //Baza danych
         builder.Services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"), ServiceLifetime.Transient);
 
+        builder.Services.AddMemoryCache();
+
+        //Repozytorium
+        builder.Services.AddScoped<IRepository, Repository>();
+
         // JWT config - token
         var jwtSettings = builder.Configuration.GetSection("Jwt");
         builder.Services.Configure<JwtSettings>(jwtSettings);
+
+        //Mapper
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+        //Kolejka
+        builder.Services.AddSingleton<Queue<int>>();
 
 
         //Autentykacja
@@ -36,7 +50,7 @@ public class Program
         .AddJwtBearer(options =>
         {
             var rsa = RSA.Create();
-            rsa.ImportFromPem(File.ReadAllText("../data/public.key"));// Za³aduj klucz publiczny RSA
+            rsa.ImportFromPem(File.ReadAllText("../src/public.key"));// Za³aduj klucz publiczny RSA
             var publicKey = new RsaSecurityKey(rsa);
 
             var jwtConfig = jwtSettings.Get<JwtSettings>();
@@ -61,6 +75,7 @@ public class Program
 
         //Serwisy
         builder.Services.AddScoped<ILoginService, LoginService>();
+        builder.Services.AddScoped<IUserService, User.Application.Services.UserService>();
         builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 

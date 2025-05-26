@@ -1,4 +1,4 @@
-﻿using EShopDomain.Models;
+﻿using EShop.Domain.Models;
 
 namespace EShop.Application.Services;
 
@@ -6,7 +6,7 @@ public interface IProductService
 {
     public Task<List<Product>> GetAllAsync();
     Task<Product> GetAsync(int id);
-    Task<Product> UpdateAsync(Product game);
-    Task<Product> AddAsync(Product game);
-    Product Add(Product game);
+    Task<Product> UpdateAsync(Product product);
+    Task<Product> AddAsync(Product product);
+    Product Add(Product product);
 }

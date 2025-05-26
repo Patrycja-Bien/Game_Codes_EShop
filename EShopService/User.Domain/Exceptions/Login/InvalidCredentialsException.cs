@@ -1,7 +1,6 @@
-﻿namespace User.Domain.Exceptions.Login
+﻿namespace User.Domain.Exceptions.Login;
+
+public class InvalidCredentialsException : Exception
 {
-    public class InvalidCredentialsException : Exception
-    {
-        public InvalidCredentialsException() : base("Incorect password or login") { }
-    }
+    public InvalidCredentialsException() : base("Incorect password or login") { }
 }

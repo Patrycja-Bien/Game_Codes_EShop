@@ -1,5 +1,5 @@
 ﻿using EShop.Domain.Repositories;
-using EShopDomain.Models;
+using EShop.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Domain.Seeders;
@@ -12,7 +12,12 @@ public class EShopSeeder(DataContext context) : IEShopSeeder
         {
             var categories = new List<Category>
             {
-                new Category { Name = "Game_Category" },
+                new Category { Name = "Seeder_Game_Category" },
+                new Category { Name = "Horror" },
+                new Category { Name = "Action" },
+                new Category { Name = "Platformer" },
+                new Category { Name = "Strategy" },
+                new Category { Name = "Shooter" },
             };
 
             context.Categories.AddRange(categories);
@@ -21,13 +26,13 @@ public class EShopSeeder(DataContext context) : IEShopSeeder
         if (!context.Products.Any())
         {
             var category = await context.Categories
-                    .Where(x => x.Name == "Game_Category").FirstOrDefaultAsync();
+                    .Where(x => x.Name == "Seeder_Game_Category").FirstOrDefaultAsync();
 
             var products = new List<Product>
             {
-                new Product { Name = "Game_A", Category = category },
-                new Product { Name = "Game_B", Category = category },
-                new Product { Name = "Game_C", Category = category }
+                new Product { Name = "Seeder_Game_A", Category = category, Sku = "Sku123" },
+                new Product { Name = "Seeder_Game_B", Category = category, Sku = "Sku456" },
+                new Product { Name = "Seeder_Game_C", Category = category, Sku = "Sku789" }
             };
 
             context.Products.AddRange(products);

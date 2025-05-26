@@ -7,21 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace User.Domain.Models;
-public class UserRequest
+public class User
 {
     [Key]
     public int Id { get; set; }
 
     [Required]
     [MaxLength(100)]
-    public string Username { get; set; }
+    public string Username { get; set; } = "admin";
+
+    public string FullName { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(255)]
     public string Email { get; set; }
 
     [Required]
-    public string PasswordHash { get; set; }
+    public string PasswordHash { get; set; } = "password";
 
     public ICollection<Role> Roles { get; set; }
 

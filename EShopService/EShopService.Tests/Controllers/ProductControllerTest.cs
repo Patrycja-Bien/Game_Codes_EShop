@@ -1,8 +1,8 @@
 ﻿using Moq;
 using Microsoft.AspNetCore.Mvc;
-using EShop.Application.Service;
+using EShop.Application.Services;
 using EShopService.Controllers;
-using EShopDomain.Models;
+using EShop.Domain.Models;
 
 namespace EShopService.Tests.Controllers;
 

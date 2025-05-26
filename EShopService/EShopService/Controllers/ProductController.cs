@@ -1,5 +1,5 @@
 ﻿using EShop.Application.Services;
-using EShopDomain.Models;
+using EShop.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,5 @@
 ﻿using EShop.Domain.Repositories;
-using EShopDomain.Models;
+using EShop.Domain.Models;
 using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Redis;
 using System.Text.Json;

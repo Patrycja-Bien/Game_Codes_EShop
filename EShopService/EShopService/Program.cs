@@ -29,12 +29,15 @@ public class Program
         //Pamiêæ podrêczna
         builder.Services.AddMemoryCache();
 
-        //Redis
-        builder.Services.AddStackExchangeRedisCache(options =>
-        {
-            options.Configuration = "redis:6379"; // Redis port
-            options.InstanceName = "Game_Codes_EShop_Redis";
-        });
+    //    //Redis
+    //    builder.Services.AddStackExchangeRedisCache(options =>
+    //    {
+    //        options.Configuration = "redis:6379"; // Redis port
+    //        options.InstanceName = "Game_Codes_EShop_Redis";
+    //    });
+    //    builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+    //ConnectionMultiplexer.Connect("redis:6379"));
+
 
         //Autentykacja
         builder.Services.AddAuthentication(options =>
@@ -45,7 +48,7 @@ public class Program
         .AddJwtBearer(options =>
         {
             var rsa = RSA.Create();
-            rsa.ImportFromPem(File.ReadAllText("../data/public.key")); //RSA
+            rsa.ImportFromPem(File.ReadAllText("../src/public.key")); //RSA
             var publicKey = new RsaSecurityKey(rsa);
 
             options.TokenValidationParameters = new TokenValidationParameters
@@ -72,6 +75,8 @@ public class Program
         //Serwisy
         builder.Services.AddScoped<ICreditCardService, CreditCardService>();
         builder.Services.AddScoped<IProductService, ProductService>();
+        builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+        builder.Services.AddScoped<ICategoryService, CategoryService>();
 
         //Kontrolery
         builder.Services.AddControllers();

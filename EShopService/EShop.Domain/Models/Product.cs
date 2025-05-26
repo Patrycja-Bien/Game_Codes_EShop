@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EShopDomain.Models;
+namespace EShop.Domain.Models;
 
 public class Product : BaseModel
 {
@@ -20,4 +20,6 @@ public class Product : BaseModel
     public int Stock { get; set; } = 0;
 
     public Category Category { get; set; } = default!;
+
+    public string Sku { get; set; } = default!;
 }

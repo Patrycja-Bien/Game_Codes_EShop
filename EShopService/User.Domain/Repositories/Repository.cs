@@ -8,7 +8,7 @@ using User.Domain.Models;
 
 namespace User.Domain.Repositories;
 
-class Repository : IRepository
+public class Repository : IRepository
 {
     private readonly DataContext _context;
 
@@ -17,24 +17,29 @@ class Repository : IRepository
         _context = dataContext;
     }
 
-    public async Task<User.Domain.Models.UserRequest> AddUserAsync(User.Domain.Models.UserRequest user)
+    public async Task<User.Domain.Models.User> AddUserAsync(User.Domain.Models.User user)
     {
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return user;
     }
 
-    public async Task<List<User.Domain.Models.UserRequest>> GetAllUsersAsync()
+    public async Task<List<User.Domain.Models.User>> GetAllUsersAsync()
     {
         return await _context.Users.ToListAsync();
     }
 
-    public async Task<User.Domain.Models.UserRequest> GetUserAsync(int id)
+    public async Task<User.Domain.Models.User> GetUserAsync(int id)
     {
         return await _context.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<User.Domain.Models.UserRequest> UpdateUserAsync(User.Domain.Models.UserRequest user)
+    public async Task<User.Domain.Models.User> GetUserByUsernameAsync(string username)
+    {
+        return await _context.Users.Where(x => x.Username == username).FirstOrDefaultAsync();
+    }
+
+    public async Task<User.Domain.Models.User> UpdateUserAsync(User.Domain.Models.User user)
     {
         _context.Users.Update(user);
         await _context.SaveChangesAsync();

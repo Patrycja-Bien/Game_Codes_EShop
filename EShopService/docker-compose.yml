@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: EShopService/Dockerfile
     #volumes:
-    # - "C:/Users/lorda/NetCourse/EShopService:/app/data"
+     #- "C:/Users/lorda/NetCourse/EShopService:/app/data"
 
   userservice:
     image: ${DOCKER_REGISTRY-}userservice
@@ -23,7 +23,22 @@ services:
       context: .
       dockerfile: UserService/Dockerfile
     #volumes:
-    #  - "C:/Users/lorda/NetCourse/EShopService:/app/data"
+     # - "C:/Users/lorda/NetCourse/UserService:/app/data"
+
+  orderservice:
+    image: ${DOCKER_REGISTRY-}ordersservice
+    depends_on:
+      - db
+      - redis
+    environment:
+      - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+    build:
+     context: .
+     dockerfile: OrdersService/Dockerfile
+    ports:
+        - "8060:8061"
+    #volumes:
+     # - "C:/Users/lorda/NetCourse/OrdersService:/app/data"
      
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
