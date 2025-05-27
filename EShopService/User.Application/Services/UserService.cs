@@ -9,6 +9,7 @@ using User.Domain.Models.Response;
 using System.Text.Json;
 using StackExchange.Redis;
 using Microsoft.Extensions.Caching.Memory;
+using User.Domain.Models;
 
 namespace User.Application.Services;
 
@@ -31,6 +32,7 @@ public class UserService : IUserService
         _cache = cache;
         var redis = ConnectionMultiplexer.Connect(conf);
         _redisDb = redis.GetDatabase();
+        _mapper = mapper;
     }
 
     public async Task<UserResponseDto?> GetUserDataAsync(int userId)
@@ -40,6 +42,21 @@ public class UserService : IUserService
             return null;
 
         return _mapper.Map<UserResponseDto>(user);
+    }
+
+    public async Task<List<UserResponseDto?>> GetAllUsersDataAsync()
+    {
+        var users = await _userRepository.GetAllUsersAsync();
+        if (users == null)
+            return null;
+        var dtos = new List<UserResponseDto?>();
+        foreach ( var user in users)
+        {
+            dtos.Add(_mapper.Map<UserResponseDto>(user));
+        }
+
+        return dtos;
+
     }
 
     public async Task<User.Domain.Models.User> AddUserAsync(User.Domain.Models.User user)

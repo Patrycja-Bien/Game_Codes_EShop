@@ -23,16 +23,7 @@ public class LoginService : ILoginService
     }
 
     public string Login(string username, string password)
-    {
-        // 1. Keep admin credentials logic for testing
-        if (username == "admin" && password == "password")
-        {
-            var roles = new List<string> { "Client", "Employee", "Administrator" };
-            var token = _jwtTokenService.GenerateToken(123, roles);
-            _userLoggedIdsQueue.Enqueue(123);
-            return token;
-        }
-
+    {   
         var userTask = _userRepository.GetUserByUsernameAsync(username);
         userTask.Wait();
         var user = userTask.Result;
@@ -43,9 +34,9 @@ public class LoginService : ILoginService
         if (!PasswordHelper.Verify(password, user.PasswordHash))
             throw new InvalidCredentialsException();
 
-        var userRoles = user.Roles?.Select(r => r.Name).ToList() ?? new List<string>();
-        var userToken = _jwtTokenService.GenerateToken(user.Id, userRoles);
+        var roles = user.Roles?.Select(r => r.Name).ToList() ?? new List<string> { "Client" };
+        var token = _jwtTokenService.GenerateToken(user.Id, roles);
         _userLoggedIdsQueue.Enqueue(user.Id);
-        return userToken;
+        return token;
     }
 }

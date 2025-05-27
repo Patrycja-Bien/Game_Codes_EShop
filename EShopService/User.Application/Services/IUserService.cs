@@ -11,4 +11,5 @@ public interface IUserService
 {
     public Task<UserResponseDto?> GetUserDataAsync(int userId);
     public Task<User.Domain.Models.User> AddUserAsync(User.Domain.Models.User user);
+    public Task<List<UserResponseDto?>> GetAllUsersDataAsync();
 }

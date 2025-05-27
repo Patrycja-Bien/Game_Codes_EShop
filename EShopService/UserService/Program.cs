@@ -1,29 +1,27 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Cryptography;
-using System.Text;
 using User.Application.Services;
 using User.Domain.Models.JWT;
 using User.Domain.Repositories;
-using User.Domain.Models;
-using User.Domain.Models.Requests;
 using User.Domain.Models.Profiles;
-using User.Domain.Repositories;
-using AutoMapper;
+using User.Domain.Seeders;
+using User.Application.Producer;
 
 namespace UserService;
 
 public class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
         //Baza danych
-        builder.Services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"), ServiceLifetime.Transient);
+        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        builder.Services.AddDbContext<DataContext>(options =>
+             options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 
         builder.Services.AddMemoryCache();
 
@@ -77,6 +75,7 @@ public class Program
         builder.Services.AddScoped<ILoginService, LoginService>();
         builder.Services.AddScoped<IUserService, User.Application.Services.UserService>();
         builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+        builder.Services.AddScoped<IKafkaProducer, KafkaProducer>();
 
 
         //Kontrolery
@@ -115,6 +114,8 @@ public class Program
                     });
         });
 
+        //Dane pocz¹tkowe
+        builder.Services.AddScoped<IUsersSeeder, UsersSeeder>();
 
         var app = builder.Build();
 
@@ -130,6 +131,13 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+            await db.Database.MigrateAsync();
+            var seeder = scope.ServiceProvider.GetRequiredService<IUsersSeeder>();
+            await seeder.Seed();
+        }
 
         app.MapControllers();
 

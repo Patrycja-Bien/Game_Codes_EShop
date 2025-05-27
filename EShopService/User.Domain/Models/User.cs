@@ -14,18 +14,17 @@ public class User
 
     [Required]
     [MaxLength(100)]
-    public string Username { get; set; } = "admin";
+    public string Username { get; set; } = string.Empty;
 
     public string FullName { get; set; } = string.Empty;
 
-    [Required]
     [MaxLength(255)]
     public string Email { get; set; }
 
     [Required]
-    public string PasswordHash { get; set; } = "password";
+    public string PasswordHash { get; set; } = string.Empty;
 
-    public ICollection<Role> Roles { get; set; }
+    public List<Role> Roles { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EShopService.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class CategoryController : ControllerBase
 {
     private ICategoryService _categoryService;

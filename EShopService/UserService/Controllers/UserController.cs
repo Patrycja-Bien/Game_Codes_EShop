@@ -36,7 +36,16 @@ public class UserController : ControllerBase
         return Ok(data);
     }
 
-    [HttpPost]
+    [HttpGet("GetAll")]
+    [Authorize]
+    public async Task<ActionResult<List<UserResponseDto?>>> GetAllUsersData()
+    {
+        var dtos = await _userService.GetAllUsersDataAsync();
+        return dtos;
+    }
+
+    [HttpPost("CreateUser")]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateUser(CreateUserDto dto)
     {
         var user = new User.Domain.Models.User

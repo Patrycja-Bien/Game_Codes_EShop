@@ -4,42 +4,40 @@ services:
     depends_on:
       - db
       - redis
+      - userservice
+      - kafka 
     environment:
       - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
     build:
       context: .
       dockerfile: EShopService/Dockerfile
-    #volumes:
-     #- "C:/Users/lorda/NetCourse/EShopService:/app/data"
 
   userservice:
     image: ${DOCKER_REGISTRY-}userservice
     depends_on:
       - db
       - redis
+      - kafka
     environment:
       - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
     build:
       context: .
       dockerfile: UserService/Dockerfile
-    #volumes:
-     # - "C:/Users/lorda/NetCourse/UserService:/app/data"
 
-  orderservice:
+  ordersservice:
     image: ${DOCKER_REGISTRY-}ordersservice
     depends_on:
       - db
       - redis
+      - eshopservice
+      - userservice
+      - kafka
     environment:
       - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
     build:
      context: .
      dockerfile: OrdersService/Dockerfile
-    ports:
-        - "8060:8061"
-    #volumes:
-     # - "C:/Users/lorda/NetCourse/OrdersService:/app/data"
-     
+
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -60,6 +58,26 @@ services:
       interval: 1s
       timeout: 2s
       retries: 10
+
+  kafka:
+    image: apache/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
 
 volumes:
   mssql_data:
