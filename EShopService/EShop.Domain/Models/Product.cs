@@ -10,8 +10,6 @@ public class Product : BaseModel
     [MaxLength(100)]
     public string Name { get; set; } = string.Empty;
 
-    //public string Code { get; set; } = string.Empty; atrybut 
-
     [MaxLength(13)]
     public string Ean { get; set; } = string.Empty;
 

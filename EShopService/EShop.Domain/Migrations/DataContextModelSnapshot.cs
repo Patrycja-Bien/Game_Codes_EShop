@@ -22,7 +22,39 @@ namespace EShop.Domain.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EShopDomain.Models.Category", b =>
+            modelBuilder.Entity("EShop.Domain.Models.CartItem", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShoppingCartUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Sku")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("ShoppingCartUserId");
+
+                    b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("EShop.Domain.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +86,7 @@ namespace EShop.Domain.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("EShopDomain.Models.Product", b =>
+            modelBuilder.Entity("EShop.Domain.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,11 +108,13 @@ namespace EShop.Domain.Migrations
 
                     b.Property<string>("Ean")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -105,15 +139,40 @@ namespace EShop.Domain.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("EShopDomain.Models.Product", b =>
+            modelBuilder.Entity("EShop.Domain.Models.ShoppingCart", b =>
                 {
-                    b.HasOne("EShopDomain.Models.Category", "Category")
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("ShoppingCarts");
+                });
+
+            modelBuilder.Entity("EShop.Domain.Models.CartItem", b =>
+                {
+                    b.HasOne("EShop.Domain.Models.ShoppingCart", null)
+                        .WithMany("Items")
+                        .HasForeignKey("ShoppingCartUserId");
+                });
+
+            modelBuilder.Entity("EShop.Domain.Models.Product", b =>
+                {
+                    b.HasOne("EShop.Domain.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("EShop.Domain.Models.ShoppingCart", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

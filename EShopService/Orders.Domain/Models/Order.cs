@@ -9,7 +9,7 @@ public class Order : BaseModel
     [Key]
     public int Id { get; set; }
 
-    public List<Product> Products { get; set; } = new();
+    public List<CartItem> CartItems { get; set; } = new();
 
     public decimal TotalAmount { get; set; } = 0;
 

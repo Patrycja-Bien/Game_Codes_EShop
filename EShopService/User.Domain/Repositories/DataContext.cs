@@ -22,7 +22,6 @@ public class DataContext : DbContext
             .Navigation(u => u.Roles)
             .AutoInclude();
 
-        // If you have other configuration, keep it here as well
         modelBuilder.Entity<User.Domain.Models.User>()
             .HasMany(u => u.Roles)
             .WithMany(r => r.Users);

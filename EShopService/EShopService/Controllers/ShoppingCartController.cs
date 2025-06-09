@@ -3,6 +3,7 @@ using EShop.Application.Services;
 using EShop.Domain.Models;
 using Orders.Application.Services;
 using Orders.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EShopService.Controllers;
 
@@ -18,10 +19,12 @@ public class ShoppingCartController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public ActionResult<ShoppingCart> GetCart(int userId)
         => Ok(_cartService.GetCartAsync(userId));
 
     [HttpPost("add")]
+    [AllowAnonymous]
     public IActionResult AddItem(int userId, int productId, int quantity)
     {
         _cartService.AddItemAsync(userId, productId, quantity);
@@ -29,6 +32,7 @@ public class ShoppingCartController : ControllerBase
     }
 
     [HttpPost("remove")]
+    [AllowAnonymous]
     public IActionResult RemoveItem(int userId, int productId)
     {
         _cartService.RemoveItemAsync(userId, productId);
@@ -36,6 +40,7 @@ public class ShoppingCartController : ControllerBase
     }
 
     [HttpPost("clear")]
+    [AllowAnonymous]
     public IActionResult ClearCart(int userId)
     {
         _cartService.ClearCartAsync(userId);
@@ -43,6 +48,7 @@ public class ShoppingCartController : ControllerBase
     }
 
     [HttpPost("checkout")]
+    [AllowAnonymous]
     public async Task<IActionResult> Checkout(int userId, [FromServices] IOrdersService ordersService)
     {
         var cart = await _cartService.GetCartAsync(userId);
@@ -51,12 +57,14 @@ public class ShoppingCartController : ControllerBase
 
         var order = new Order
         {
-            Products = cart.Items.Select(i => new Product
+            CartItems = cart.Items.Select(i => new CartItem
             {
-                Id = i.ProductId,
+                ProductId = i.ProductId,
                 Name = i.Name,
                 Price = i.Price,
                 Sku = i.Sku,
+                Quantity = i.Quantity
+
             }).ToList(),
             TotalAmount = cart.Items.Sum(i => i.Price * i.Quantity),
         };

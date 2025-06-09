@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using User.Domain.Repositories;
 using User.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using User.Domain.Helpers;
 
 namespace User.Domain.Seeders;
 

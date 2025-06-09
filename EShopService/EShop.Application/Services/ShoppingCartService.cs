@@ -45,16 +45,22 @@ public class ShoppingCartService : IShoppingCartService
     {
         var cart = await GetCartAsync(userId);
         var item = cart.Items.FirstOrDefault(i => i.ProductId == productId);
+        var product = await _repository.GetProductAsync(productId);
+        if (product == null)
+            throw new ArgumentException("Product not found");
+
+        if (product.Stock < quantity)
+            throw new InvalidOperationException("Not enough stock available");
+
         if (item != null)
         {
+            if (product.Stock < item.Quantity + quantity)
+                throw new InvalidOperationException("Not enough stock available for the requested quantity");
+
             item.Quantity += quantity;
         }
         else
         {
-            var product = await _repository.GetProductAsync(productId);
-            if (product == null)
-                throw new ArgumentException("Product not found");
-
             cart.Items.Add(new CartItem
             {
                 ProductId = productId,
@@ -67,10 +73,15 @@ public class ShoppingCartService : IShoppingCartService
         await _redisDb.StringSetAsync(key, JsonSerializer.Serialize(cart), TimeSpan.FromHours(24));
     }
 
+
     public async Task RemoveItemAsync(int userId, int productId)
     {
         var cart = await GetCartAsync(userId);
-        cart.Items.RemoveAll(i => i.ProductId == productId);
+        var itemToRemove = cart.Items.FirstOrDefault(i => i.ProductId == productId);
+        if (itemToRemove != null)
+        {
+            cart.Items.Remove(itemToRemove);
+        }
 
         var key = GetCartKey(userId);
         await _redisDb.StringSetAsync(key, JsonSerializer.Serialize(cart));

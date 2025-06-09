@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using User.Domain.Models;
 using User.Application.Services;
 using User.Domain.Models.Response;
 using User.Domain.Models.DTOs;
+using User.Domain.Helpers;
 
 namespace UserService.Controllers;
 
@@ -36,7 +36,7 @@ public class UserController : ControllerBase
         return Ok(data);
     }
 
-    [HttpGet("GetAll")]
+    [HttpGet("Get All")]
     [Authorize]
     public async Task<ActionResult<List<UserResponseDto?>>> GetAllUsersData()
     {
@@ -44,7 +44,7 @@ public class UserController : ControllerBase
         return dtos;
     }
 
-    [HttpPost("CreateUser")]
+    [HttpPost("Create User")]
     [AllowAnonymous]
     public async Task<IActionResult> CreateUser(CreateUserDto dto)
     {

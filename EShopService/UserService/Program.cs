@@ -9,6 +9,7 @@ using User.Domain.Repositories;
 using User.Domain.Models.Profiles;
 using User.Domain.Seeders;
 using User.Application.Producer;
+using Microsoft.Extensions.Configuration;
 
 namespace UserService;
 
@@ -21,7 +22,7 @@ public class Program
         //Baza danych
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
         builder.Services.AddDbContext<DataContext>(options =>
-             options.UseSqlServer(connectionString), ServiceLifetime.Transient);
+             options.UseSqlServer(connectionString), ServiceLifetime.Transient);        
 
         builder.Services.AddMemoryCache();
 
@@ -74,8 +75,9 @@ public class Program
         //Serwisy
         builder.Services.AddScoped<ILoginService, LoginService>();
         builder.Services.AddScoped<IUserService, User.Application.Services.UserService>();
+        builder.Services.AddScoped<IEditUserService, EditUserService>();
         builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-        builder.Services.AddScoped<IKafkaProducer, KafkaProducer>();
+        builder.Services.AddSingleton<IKafkaProducer, KafkaProducer>();
 
 
         //Kontrolery

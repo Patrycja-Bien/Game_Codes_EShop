@@ -14,10 +14,11 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-
         //Baza danych
-        builder.Services.AddDbContext<DataContext>(options =>
+        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        builder.Services.AddDbContext<EShop.Domain.Repositories.DataContext>(options =>
+            options.UseSqlServer(connectionString), ServiceLifetime.Transient);        
+        builder.Services.AddDbContext<Orders.Domain.Repositories.DataContext>(options =>
             options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 
         //Repozytorium
@@ -129,7 +130,7 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-            await db.Database.MigrateAsync();
+            await db.Database.EnsureCreatedAsync();
             var seeder = scope.ServiceProvider.GetRequiredService<IOrdersSeeder>();
             await seeder.Seed();
         }

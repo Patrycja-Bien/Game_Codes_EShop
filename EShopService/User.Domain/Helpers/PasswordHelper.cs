@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace User.Domain.Models;
+namespace User.Domain.Helpers;
 
 public static class PasswordHelper
 {
