@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.Domain.Models;
+namespace ShoppingCart.Domain.Models;
 
-public class CartItem
+public class Item
 {
     [Key]
-    public int ProductId { get; set; }
-    public string Name { get; set; } = string.Empty;
+    public int Id { get; set; }
+    public string Name { get; set; }
     public int Quantity { get; set; }
     public decimal Price { get; set; }
-    public string Sku { get; set; } = string.Empty;
 }

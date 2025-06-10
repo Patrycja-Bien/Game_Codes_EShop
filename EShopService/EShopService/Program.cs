@@ -29,16 +29,6 @@ public class Program
         //Pamiêæ podrêczna
         builder.Services.AddMemoryCache();
 
-    //    //Redis
-    //    builder.Services.AddStackExchangeRedisCache(options =>
-    //    {
-    //        options.Configuration = "redis:6379"; // Redis port
-    //        options.InstanceName = "Game_Codes_EShop_Redis";
-    //    });
-    //    builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-    //ConnectionMultiplexer.Connect("redis:6379"));
-
-
         //Autentykacja
         builder.Services.AddAuthentication(options =>
         {
@@ -75,7 +65,6 @@ public class Program
         //Serwisy
         builder.Services.AddScoped<ICreditCardService, CreditCardService>();
         builder.Services.AddScoped<IProductService, ProductService>();
-        builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
 
         //Kontrolery
@@ -116,7 +105,7 @@ public class Program
         });
 
         //Dane pocz¹tkowe
-        builder.Services.AddScoped<IEShopSeeder, EShopSeeder>();
+        builder.Services.AddScoped<IProductCatalogueSeeder, ProductCatalogueSeeder>();
 
         var app = builder.Build();
 
@@ -139,7 +128,7 @@ public class Program
         {
             var db = scope.ServiceProvider.GetRequiredService<DataContext>();
             await db.Database.MigrateAsync();
-            var seeder = scope.ServiceProvider.GetRequiredService<IEShopSeeder>();
+            var seeder = scope.ServiceProvider.GetRequiredService<IProductCatalogueSeeder>();
             await seeder.Seed();
         }
 

@@ -37,6 +37,19 @@ services:
      context: .
      dockerfile: OrdersService/Dockerfile
 
+  shoppingcart:
+    image: ${DOCKER_REGISTRY-}shoppingcart
+    depends_on:
+      - db
+      - eshopservice
+    ports:
+     - "8082:8082"
+    environment:
+      - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+    build:
+      context: .
+      dockerfile: ShoppingCart/ShoppingCart/Dockerfile
+
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -77,6 +90,15 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_NUM_PARTITIONS: 3
+
+  notificationservice:
+    image: ${DOCKER_REGISTRY-}notificationservice
+    depends_on:
+      - ordersservice
+      - kafka 
+    build:
+      context: .
+      dockerfile: AzureNotificationService/NotificationService/Dockerfile
 
 volumes:
   mssql_data:

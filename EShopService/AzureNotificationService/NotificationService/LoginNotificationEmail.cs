@@ -26,7 +26,7 @@ public class LoginNotificationEmail
             ConsumerGroup = "function-consumer-group")]
         KafkaMessage message)
     {
-        await SendEmailAsync(message.ToString(), message.Value);
+        await SendEmailAsync("lalala", message.Value.ToString());
         _logger.LogInformation($"Messege received from Kafka: {message.ToString()}");
     }
 

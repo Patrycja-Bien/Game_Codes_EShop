@@ -39,8 +39,9 @@ public class UsersSeeder(DataContext context) : IUsersSeeder
             {
                 new User.Domain.Models.User { Username = "Seeder_User_A", Roles = role_client, Email = "seeder@email.a", PasswordHash = PasswordHelper.Hash("Seeder_Password_A")},
                 new User.Domain.Models.User { Username = "Seeder_User_B", Roles = role_client, Email = "seeder@email.b", PasswordHash = PasswordHelper.Hash("Seeder_Password_B") },
-                new User.Domain.Models.User { Username = "Seeder_User_C", Roles = role_client, Email = "seeder@email.", PasswordHash = PasswordHelper.Hash("Seeder_Password_C") },
-                new User.Domain.Models.User { Username = "admin", Roles = role_admin, Email = "seeder@email.a", PasswordHash = PasswordHelper.Hash("password") },
+                new User.Domain.Models.User { Username = "Seeder_User_C", Roles = role_client, Email = "seeder@email.c", PasswordHash = PasswordHelper.Hash("Seeder_Password_C") },
+                new User.Domain.Models.User { Username = "admin", Roles = role_admin, Email = "Admin@email.a", PasswordHash = PasswordHelper.Hash("password") },
+                new User.Domain.Models.User { Username = "admin2", Roles = role_admin, Email = "test.bien.test@gmail.com", PasswordHash = PasswordHelper.Hash("password") },
             };
 
             context.Users.AddRange(users);

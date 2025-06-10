@@ -28,17 +28,17 @@ public class OrdersSeeder : IOrdersSeeder
             var address2 = new Address { FirstName = "Jane", LastName = "Smith", Street = "456 Side St", City = "CityB", ZipCode = "67890", Country = "PL", Phone = "987654321", Email = "jane@example.com" };
             var address3 = new Address { FirstName = "Alice", LastName = "Brown", Street = "789 High St", City = "CityC", ZipCode = "54321", Country = "PL", Phone = "555555555", Email = "alice@example.com" };
 
-            var cartitems = await _eshopContext.CartItems.ToListAsync();
+            //var cartitems = await _eshopContext.CartItems.ToListAsync();
 
-            var orders = new List<Order>
-            {
-                new Order { CartItems = cartitems, TotalAmount = 101, Address = address1 },
-                new Order { CartItems = cartitems, TotalAmount = 102, Address = address2 },
-                new Order { CartItems = cartitems, TotalAmount = 103, Address = address3 }
-            };
+            //var orders = new List<Order>
+            //{
+            //    new Order { CartItems = cartitems, TotalAmount = 101, Address = address1 },
+            //    new Order { CartItems = cartitems, TotalAmount = 102, Address = address2 },
+            //    new Order { CartItems = cartitems, TotalAmount = 103, Address = address3 }
+            //};
 
-            _ordersContext.Orders.AddRange(orders);
-            await _ordersContext.SaveChangesAsync();
+            //_ordersContext.Orders.AddRange(orders);
+            //await _ordersContext.SaveChangesAsync();
         }
 
     }

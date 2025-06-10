@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopService", "EShopService\EShopService.csproj", "{91F81F87-AF68-44A9-9614-295C7FC0515E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalogue", "EShopService\ProductCatalogue.csproj", "{91F81F87-AF68-44A9-9614-295C7FC0515E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.Application", "EShop.Application\EShop.Application.csproj", "{C5BCA0BF-8536-4CBE-B880-9DE95A5D7EE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalogue.Application", "EShop.Application\ProductCatalogue.Application.csproj", "{C5BCA0BF-8536-4CBE-B880-9DE95A5D7EE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.Application.Tests", "EShop.Application.Tests\EShop.Application.Tests.csproj", "{30CEA913-4BCF-41EA-919C-6B16A808131F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.Domain", "EShop.Domain\EShop.Domain.csproj", "{DCDB77FE-78C9-4DBF-AD6E-313622053F6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalogue.Domain", "EShop.Domain\ProductCatalogue.Domain.csproj", "{DCDB77FE-78C9-4DBF-AD6E-313622053F6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.Domain.Tests", "EShop.Domain.Tests\EShop.Domain.Tests.csproj", "{EB09680A-239D-495C-88D2-65E356592578}"
 EndProject
@@ -45,11 +45,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Application", "Order
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Domain", "Orders.Domain\Orders.Domain.csproj", "{8521A847-9EF6-4DF0-8080-1537A58C7510}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{61B72519-2239-48B3-A2D2-5ED58B66CD65}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notification", "{0C035FDA-44E7-406C-80B3-00154ABF64E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "AzureNotificationService\NotificationService\NotificationService.csproj", "{11FEC56E-5014-40AB-B12E-CE925427E5C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShoppingCart", "ShoppingCart", "{A902F68C-BCCC-4B2E-A58D-FCC941B4F708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart", "ShoppingCart\ShoppingCart\ShoppingCart.csproj", "{E529CC18-A829-430E-8AFE-9AF890E35531}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Domain", "ShoppingCart\ShoppingCart.Domain\ShoppingCart.Domain.csproj", "{E1BB4E56-6A07-4E00-9792-54E6542BE1B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Infrastructure", "ShoppingCart\ShoppingCart.Infrastructure\ShoppingCart.Infrastructure.csproj", "{D772609F-A919-4655-9E9F-5410BE8338A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Application", "ShoppingCart\ShoppingCart.Application\ShoppingCart.Application.csproj", "{2AF14A86-FAB0-4051-AB28-35EF14AE6E38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +125,22 @@ Global
 		{11FEC56E-5014-40AB-B12E-CE925427E5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11FEC56E-5014-40AB-B12E-CE925427E5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11FEC56E-5014-40AB-B12E-CE925427E5C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E529CC18-A829-430E-8AFE-9AF890E35531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E529CC18-A829-430E-8AFE-9AF890E35531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E529CC18-A829-430E-8AFE-9AF890E35531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E529CC18-A829-430E-8AFE-9AF890E35531}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1BB4E56-6A07-4E00-9792-54E6542BE1B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1BB4E56-6A07-4E00-9792-54E6542BE1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1BB4E56-6A07-4E00-9792-54E6542BE1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1BB4E56-6A07-4E00-9792-54E6542BE1B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D772609F-A919-4655-9E9F-5410BE8338A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D772609F-A919-4655-9E9F-5410BE8338A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D772609F-A919-4655-9E9F-5410BE8338A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D772609F-A919-4655-9E9F-5410BE8338A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF14A86-FAB0-4051-AB28-35EF14AE6E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF14A86-FAB0-4051-AB28-35EF14AE6E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF14A86-FAB0-4051-AB28-35EF14AE6E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF14A86-FAB0-4051-AB28-35EF14AE6E38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,8 +160,11 @@ Global
 		{8EB9C2C4-2C18-4C7B-AAFD-AE74D89A6E7F} = {AB9EF474-159E-486F-A2EE-491643C49FF7}
 		{9C858544-154E-496D-B10D-DA4656034C74} = {AB9EF474-159E-486F-A2EE-491643C49FF7}
 		{8521A847-9EF6-4DF0-8080-1537A58C7510} = {AB9EF474-159E-486F-A2EE-491643C49FF7}
-		{61B72519-2239-48B3-A2D2-5ED58B66CD65} = {2641E901-8C81-419E-BA64-EDCCA2193C44}
 		{11FEC56E-5014-40AB-B12E-CE925427E5C4} = {0C035FDA-44E7-406C-80B3-00154ABF64E5}
+		{E529CC18-A829-430E-8AFE-9AF890E35531} = {A902F68C-BCCC-4B2E-A58D-FCC941B4F708}
+		{E1BB4E56-6A07-4E00-9792-54E6542BE1B3} = {A902F68C-BCCC-4B2E-A58D-FCC941B4F708}
+		{D772609F-A919-4655-9E9F-5410BE8338A2} = {A902F68C-BCCC-4B2E-A58D-FCC941B4F708}
+		{2AF14A86-FAB0-4051-AB28-35EF14AE6E38} = {A902F68C-BCCC-4B2E-A58D-FCC941B4F708}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {233E5992-9E95-4D32-9DB9-747ADC5A4A0B}

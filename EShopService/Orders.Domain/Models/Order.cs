@@ -9,8 +9,6 @@ public class Order : BaseModel
     [Key]
     public int Id { get; set; }
 
-    public List<CartItem> CartItems { get; set; } = new();
-
     public decimal TotalAmount { get; set; } = 0;
 
     public string Currency { get; set; } = "PLN";
