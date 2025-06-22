@@ -1,0 +1,5 @@
+﻿C:\Users\lorda\NetCourse\EShopService\.env
+C:\Users\lorda\NetCourse\EShopService\docker-compose.override.yml
+C:\Users\lorda\NetCourse\EShopService\docker-compose.yml
+C:\Users\lorda\NetCourse\EShopService\.dockerignore
+C:\Users\lorda\NetCourse\EShopService\docker\sql\init.sql

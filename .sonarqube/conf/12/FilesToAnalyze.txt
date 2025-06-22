@@ -1,0 +1,2 @@
+﻿C:\Users\lorda\NetCourse\EShopService\Orders.Application\Services\IOrdersService.cs
+C:\Users\lorda\NetCourse\EShopService\Orders.Application\Services\OrdersService.cs

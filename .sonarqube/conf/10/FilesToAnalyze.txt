@@ -1,0 +1,5 @@
+﻿C:\Users\lorda\NetCourse\EShopService\ShoppingCart\ShoppingCart.Application\CommandHelpers\AddProductToCartCommandHelper.cs
+C:\Users\lorda\NetCourse\EShopService\ShoppingCart\ShoppingCart.Application\CommandHelpers\RemoveProductFromCartCommandHandler.cs
+C:\Users\lorda\NetCourse\EShopService\ShoppingCart\ShoppingCart.Application\QueryHandlers\GetAllCartsQueryHandler.cs
+C:\Users\lorda\NetCourse\EShopService\ShoppingCart\ShoppingCart.Application\QueryHandlers\GetCartQueryHandler.cs
+C:\Users\lorda\NetCourse\EShopService\ShoppingCart\ShoppingCart.Application\Services\CartService.cs

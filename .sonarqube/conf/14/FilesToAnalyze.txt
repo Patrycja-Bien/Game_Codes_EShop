@@ -1,0 +1,14 @@
+﻿C:\Users\lorda\NetCourse\EShopService\UserService\Controllers\EditController.cs
+C:\Users\lorda\NetCourse\EShopService\UserService\Controllers\LoginController.cs
+C:\Users\lorda\NetCourse\EShopService\UserService\Controllers\UserController.cs
+C:\Users\lorda\NetCourse\EShopService\UserService\Program.cs
+C:\Users\lorda\NetCourse\EShopService\UserService\obj\Debug\net8.0\UserService.GlobalUsings.g.cs
+C:\Users\lorda\NetCourse\EShopService\UserService\obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+C:\Users\lorda\NetCourse\EShopService\UserService\obj\Debug\net8.0\UserService.AssemblyInfo.cs
+C:\Users\lorda\NetCourse\EShopService\UserService\obj\Debug\net8.0\UserService.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\lorda\NetCourse\EShopService\UserService\appsettings.Development.json
+C:\Users\lorda\NetCourse\EShopService\UserService\appsettings.json
+C:\Users\lorda\NetCourse\EShopService\UserService\Dockerfile
+C:\Users\lorda\NetCourse\EShopService\UserService\UserService.http
+C:\Users\lorda\NetCourse\EShopService\UserService\Properties\launchSettings.json
+C:\Users\lorda\NetCourse\EShopService\.dockerignore

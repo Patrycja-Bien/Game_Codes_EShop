@@ -1,0 +1,12 @@
+﻿C:\Users\lorda\NetCourse\EShopService\OrdersService\Controllers\OrdersController.cs
+C:\Users\lorda\NetCourse\EShopService\OrdersService\Program.cs
+C:\Users\lorda\NetCourse\EShopService\OrdersService\obj\Debug\net8.0\OrdersService.GlobalUsings.g.cs
+C:\Users\lorda\NetCourse\EShopService\OrdersService\obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+C:\Users\lorda\NetCourse\EShopService\OrdersService\obj\Debug\net8.0\OrdersService.AssemblyInfo.cs
+C:\Users\lorda\NetCourse\EShopService\OrdersService\obj\Debug\net8.0\OrdersService.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\lorda\NetCourse\EShopService\OrdersService\appsettings.Development.json
+C:\Users\lorda\NetCourse\EShopService\OrdersService\appsettings.json
+C:\Users\lorda\NetCourse\EShopService\OrdersService\Dockerfile
+C:\Users\lorda\NetCourse\EShopService\OrdersService\OrdersService.http
+C:\Users\lorda\NetCourse\EShopService\OrdersService\Properties\launchSettings.json
+C:\Users\lorda\NetCourse\EShopService\.dockerignore

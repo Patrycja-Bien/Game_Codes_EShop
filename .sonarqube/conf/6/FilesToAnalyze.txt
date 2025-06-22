@@ -1,0 +1,10 @@
+﻿C:\Users\lorda\NetCourse\EShopService\User.Application\Producer\IKafkaProducer.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Producer\KafkaProducer.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Services\EditUserService.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Services\IEditUserService.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Services\IJwtTokenService.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Services\ILoginService.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Services\IUserService.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Services\JwtTokenService.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Services\LoginService.cs
+C:\Users\lorda\NetCourse\EShopService\User.Application\Services\UserService.cs

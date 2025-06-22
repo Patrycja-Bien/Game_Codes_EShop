@@ -1,0 +1,6 @@
+﻿C:\Users\lorda\NetCourse\EShopService\EShop.Application\Services\CategoryService.cs
+C:\Users\lorda\NetCourse\EShopService\EShop.Application\Services\CreditCardService.cs
+C:\Users\lorda\NetCourse\EShopService\EShop.Application\Services\ICategoryService.cs
+C:\Users\lorda\NetCourse\EShopService\EShop.Application\Services\ICreditCardService.cs
+C:\Users\lorda\NetCourse\EShopService\EShop.Application\Services\IProductService.cs
+C:\Users\lorda\NetCourse\EShopService\EShop.Application\Services\ProductService.cs

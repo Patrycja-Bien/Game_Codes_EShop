@@ -1,0 +1,2 @@
+﻿C:\Users\lorda\NetCourse\EShopService\AzureNotificationService\NotificationService\obj\Debug\net8.0\WorkerExtensions\obj\Release\net8.0\WorkerExtensions.AssemblyInfo.cs
+C:\Users\lorda\.nuget\packages\microsoft.azure.webjobs.extensions.kafka\4.1.0\build\cacert.pem
